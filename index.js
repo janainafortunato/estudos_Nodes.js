@@ -1,30 +1,28 @@
 const { request, response } = require('express');
-const express = require('express'); //require
+const express = require('express'); 
 const app = express();
+const {uuid} = require('uuidv4');
 
-//console.log(app);
+app.use(express.json());
+
+const projects = [];
 
 app.get('/projects', (request, response) => {
 
-    const {title, owner} = request.query;
-    console.log(title)
-    console.log(owner)
+    //const {title, owner} = request.query;
+    
 
-   return response.json([
-        'Projeto 1',
-        'Projeto 2',
-        'Projeto 100'
-    ])
+   return response.json(projects)
 });
 
 app.post('/projects', (request, response) => {
-    return response.json([
-        'Projeto 1',
-        'Projeto 2',
-        'Projeto 3',
-        'Projeto 4',
-        'Projeto 5'
-    ])
+
+    const {title, owner} = request.body;
+    const project = {id: uuid(), title, owner};
+   
+    projects.push(project); // esse push vai jogar a criação do nosso projeto para o nosso array
+
+    return response.json(project); // sempre retornar o projeto recém criado e nunca exibir a 
 });
 
 app.put('/projects/:id', (request, response) => {
